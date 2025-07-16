@@ -156,6 +156,31 @@
                 transform: scale(1.1) rotate(15deg);
             }
 
+            .user-auth {
+                position: absolute;
+                top: 15px;
+                right: 65px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: var(--card-bg);
+                border: none;
+                color: var(--text-primary);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                box-shadow: var(--shadow);
+                z-index: 10;
+            }
+
+            .user-auth:hover {
+                transform: scale(1.1);
+                background: var(--accent);
+                color: white;
+            }
+
             .dashboard {
                 display: flex;
                 flex-direction: column;
@@ -721,7 +746,8 @@
                 font-size: 0.8rem;
             }
 
-            .share-modal {
+            .share-modal,
+            .auth-modal {
                 position: fixed;
                 top: 0;
                 left: 0;
@@ -737,39 +763,45 @@
                 transition: all 0.3s ease;
             }
 
-            .share-modal.active {
+            .share-modal.active,
+            .auth-modal.active {
                 opacity: 1;
                 visibility: visible;
             }
 
-            .share-content {
+            .share-content,
+            .auth-content {
                 background: var(--panel-bg);
                 border-radius: 16px;
                 padding: 25px;
                 width: 90%;
-                max-width: 100%;
+                max-width: 450px;
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
                 transform: translateY(-20px);
                 transition: transform 0.3s ease;
             }
 
-            .share-modal.active .share-content {
+            .share-modal.active .share-content,
+            .auth-modal.active .auth-content {
                 transform: translateY(0);
             }
 
-            .share-header {
+            .share-header,
+            .auth-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 15px;
             }
 
-            .share-title {
+            .share-title,
+            .auth-title {
                 font-size: 1.3rem;
                 color: var(--accent);
             }
 
-            .close-share {
+            .close-share,
+            .close-auth {
                 background: none;
                 border: none;
                 color: var(--text-secondary);
@@ -802,6 +834,122 @@
             .share-option i {
                 font-size: 1.8rem;
                 margin-bottom: 8px;
+            }
+
+            .auth-form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .auth-tabs {
+                display: flex;
+                margin-bottom: 15px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .auth-tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px;
+                cursor: pointer;
+                font-weight: 600;
+                border-bottom: 3px solid transparent;
+            }
+
+            .auth-tab.active {
+                border-bottom: 3px solid var(--accent);
+                color: var(--accent);
+            }
+
+            .input-group {
+                position: relative;
+            }
+
+            .input-group i {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-secondary);
+            }
+
+            .auth-input {
+                padding: 14px 18px 14px 45px;
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                color: var(--text-primary);
+                font-size: 1rem;
+                outline: none;
+                width: 100%;
+            }
+
+            .auth-input:focus {
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+            }
+
+            .auth-btn {
+                padding: 14px;
+                background: linear-gradient(
+                    135deg,
+                    var(--accent),
+                    var(--accent-dark)
+                );
+                color: white;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .auth-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 7px 15px rgba(46, 204, 113, 0.4);
+            }
+
+            .auth-footer {
+                text-align: center;
+                margin-top: 15px;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }
+
+            .auth-link {
+                color: var(--accent);
+                cursor: pointer;
+                font-weight: 600;
+            }
+
+            .auth-type-toggle {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .toggle-option {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+                background: var(--card-bg);
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+            }
+
+            .toggle-option.active {
+                background: var(--accent);
+                color: white;
             }
 
             footer {
@@ -907,6 +1055,10 @@
                 .task-content {
                     min-width: calc(100% - 40px);
                 }
+
+                .auth-content {
+                    padding: 20px;
+                }
             }
         </style>
     </head>
@@ -926,6 +1078,9 @@
                     <div class="current-date">Mercoledì, 16 Luglio 2025</div>
                     <div class="current-time" id="current-time">18:45:32</div>
                 </div>
+                <button class="user-auth" id="user-auth">
+                    <i class="fas fa-user"></i>
+                </button>
                 <button class="theme-toggle" id="theme-toggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -1162,6 +1317,92 @@
             </div>
         </div>
 
+        <!-- Authentication Modal -->
+        <div class="auth-modal" id="auth-modal">
+            <div class="auth-content">
+                <div class="auth-header">
+                    <h3 class="auth-title" id="auth-title">
+                        Accedi al tuo account
+                    </h3>
+                    <button class="close-auth" id="close-auth">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="login-tab">Accedi</div>
+                    <div class="auth-tab" id="register-tab">Registrati</div>
+                </div>
+
+                <div class="auth-type-toggle">
+                    <div class="toggle-option active" id="email-toggle">
+                        Email
+                    </div>
+                    <div class="toggle-option" id="phone-toggle">Telefono</div>
+                </div>
+
+                <form class="auth-form" id="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input
+                            type="text"
+                            class="auth-input"
+                            id="auth-identifier"
+                            placeholder="Email"
+                            required
+                        />
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input
+                            type="password"
+                            class="auth-input"
+                            id="auth-password"
+                            placeholder="Password"
+                            required
+                        />
+                    </div>
+
+                    <div id="register-fields" style="display: none">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input
+                                type="text"
+                                class="auth-input"
+                                id="auth-name"
+                                placeholder="Nome completo"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input
+                                type="password"
+                                class="auth-input"
+                                id="auth-confirm-password"
+                                placeholder="Conferma password"
+                            />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="auth-btn" id="auth-submit">
+                        <i class="fas fa-sign-in-alt"></i> Accedi
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p id="auth-footer-text">
+                        Non hai un account?
+                        <span class="auth-link" id="auth-switch"
+                            >Registrati ora</span
+                        >
+                    </p>
+                    <p class="auth-link">Password dimenticata?</p>
+                </div>
+            </div>
+        </div>
+
         <script>
             // Sample tasks data
             let tasks = [
@@ -1217,6 +1458,29 @@
             const shareModal = document.getElementById("share-modal");
             const closeShare = document.getElementById("close-share");
             const shareTaskText = document.getElementById("share-task-text");
+            const userAuth = document.getElementById("user-auth");
+            const authModal = document.getElementById("auth-modal");
+            const closeAuth = document.getElementById("close-auth");
+            const loginTab = document.getElementById("login-tab");
+            const registerTab = document.getElementById("register-tab");
+            const authForm = document.getElementById("auth-form");
+            const authIdentifier = document.getElementById("auth-identifier");
+            const authPassword = document.getElementById("auth-password");
+            const authSubmit = document.getElementById("auth-submit");
+            const authSwitch = document.getElementById("auth-switch");
+            const authFooterText = document.getElementById("auth-footer-text");
+            const emailToggle = document.getElementById("email-toggle");
+            const phoneToggle = document.getElementById("phone-toggle");
+            const registerFields = document.getElementById("register-fields");
+            const authTitle = document.getElementById("auth-title");
+            const authName = document.getElementById("auth-name");
+            const authConfirmPassword = document.getElementById(
+                "auth-confirm-password",
+            );
+
+            // Authentication state
+            let isRegistering = false;
+            let useEmail = true;
 
             // Update time
             function updateTime() {
@@ -1244,6 +1508,151 @@
                 }
             });
 
+            // User authentication modal
+            userAuth.addEventListener("click", () => {
+                authModal.classList.add("active");
+            });
+
+            closeAuth.addEventListener("click", () => {
+                authModal.classList.remove("active");
+            });
+
+            // Toggle between login and register
+            loginTab.addEventListener("click", () => {
+                loginTab.classList.add("active");
+                registerTab.classList.remove("active");
+                isRegistering = false;
+                registerFields.style.display = "none";
+                authTitle.textContent = "Accedi al tuo account";
+                authSubmit.innerHTML =
+                    '<i class="fas fa-sign-in-alt"></i> Accedi';
+                authFooterText.innerHTML =
+                    'Non hai un account? <span class="auth-link" id="auth-switch">Registrati ora</span>';
+            });
+
+            registerTab.addEventListener("click", () => {
+                registerTab.classList.add("active");
+                loginTab.classList.remove("active");
+                isRegistering = true;
+                registerFields.style.display = "block";
+                authTitle.textContent = "Crea un nuovo account";
+                authSubmit.innerHTML =
+                    '<i class="fas fa-user-plus"></i> Registrati';
+                authFooterText.innerHTML =
+                    'Hai già un account? <span class="auth-link" id="auth-switch">Accedi ora</span>';
+            });
+
+            // Toggle between email and phone
+            emailToggle.addEventListener("click", () => {
+                emailToggle.classList.add("active");
+                phoneToggle.classList.remove("active");
+                useEmail = true;
+                authIdentifier.placeholder = "Email";
+                authIdentifier.type = "email";
+            });
+
+            phoneToggle.addEventListener("click", () => {
+                phoneToggle.classList.add("active");
+                emailToggle.classList.remove("active");
+                useEmail = false;
+                authIdentifier.placeholder = "Numero di telefono";
+                authIdentifier.type = "tel";
+            });
+
+            // Switch between login and register
+            authSwitch.addEventListener("click", () => {
+                if (isRegistering) {
+                    loginTab.click();
+                } else {
+                    registerTab.click();
+                }
+            });
+
+            // Authentication form submission
+            authForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const identifier = authIdentifier.value.trim();
+                const password = authPassword.value.trim();
+                const name = isRegistering ? authName.value.trim() : "";
+                const confirmPassword = isRegistering
+                    ? authConfirmPassword.value.trim()
+                    : "";
+
+                // Simple validation
+                if (!identifier) {
+                    showNotification(
+                        `Inserisci la tua ${useEmail ? "email" : "numero di telefono"}`,
+                        "error",
+                    );
+                    return;
+                }
+
+                if (!password) {
+                    showNotification("Inserisci la password", "error");
+                    return;
+                }
+
+                if (isRegistering) {
+                    if (!name) {
+                        showNotification("Inserisci il tuo nome", "error");
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showNotification(
+                            "Le password non corrispondono",
+                            "error",
+                        );
+                        return;
+                    }
+
+                    // Simulate registration
+                    showNotification(
+                        `Registrazione completata con successo con ${useEmail ? "email" : "telefono"}!`,
+                        "success",
+                    );
+                    setTimeout(() => {
+                        authModal.classList.remove("active");
+                    }, 1500);
+                } else {
+                    // Simulate login
+                    showNotification(
+                        `Accesso effettuato con ${useEmail ? "email" : "telefono"}!`,
+                        "success",
+                    );
+                    setTimeout(() => {
+                        authModal.classList.remove("active");
+                    }, 1500);
+                }
+            });
+
+            // Show notification
+            function showNotification(message, type) {
+                const notification = document.createElement("div");
+                notification.textContent = message;
+                notification.style.position = "fixed";
+                notification.style.bottom = "20px";
+                notification.style.right = "20px";
+                notification.style.background =
+                    type === "error" ? "var(--priority-high)" : "var(--accent)";
+                notification.style.color = "white";
+                notification.style.padding = "12px 24px";
+                notification.style.borderRadius = "8px";
+                notification.style.zIndex = "1000";
+                notification.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+                notification.style.fontWeight = "500";
+                notification.style.transition = "opacity 0.3s ease";
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.opacity = "0";
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+
             // Render tasks
             function renderTasks() {
                 taskList.innerHTML = "";
@@ -1261,26 +1670,14 @@
                         <div class="task-header">
                             <div class="task-title">${task.title}</div>
                             <div class="task-category ${task.category}">
-                                ${
-                                    task.category === "university"
-                                        ? "Università"
-                                        : task.category === "finance"
-                                          ? "Finanza"
-                                          : "Personale"
-                                }
+                                ${task.category === "university" ? "Università" : task.category === "finance" ? "Finanza" : "Personale"}
                             </div>
                         </div>
                         <div class="task-text">${task.description}</div>
                         <div class="task-meta">
                             <div class="task-priority priority-${task.priority}">
                                 <span class="priority-dot"></span>
-                                ${
-                                    task.priority === "high"
-                                        ? "Priorità Alta"
-                                        : task.priority === "medium"
-                                          ? "Priorità Media"
-                                          : "Priorità Bassa"
-                                }
+                                ${task.priority === "high" ? "Priorità Alta" : task.priority === "medium" ? "Priorità Media" : "Priorità Bassa"}
                             </div>
                             <div class="task-date">
                                 <i class="far fa-calendar"></i>
@@ -1421,25 +1818,7 @@
                 taskInput.focus();
 
                 // Show confirmation
-                const confirmation = document.createElement("div");
-                confirmation.textContent = `Attività "${taskText}" aggiunta!`;
-                confirmation.style.position = "fixed";
-                confirmation.style.bottom = "20px";
-                confirmation.style.right = "20px";
-                confirmation.style.background = "var(--accent)";
-                confirmation.style.color = "white";
-                confirmation.style.padding = "10px 20px";
-                confirmation.style.borderRadius = "8px";
-                confirmation.style.zIndex = "1000";
-                confirmation.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
-                document.body.appendChild(confirmation);
-
-                setTimeout(() => {
-                    confirmation.style.opacity = "0";
-                    setTimeout(() => {
-                        document.body.removeChild(confirmation);
-                    }, 300);
-                }, 2000);
+                showNotification(`Attività "${taskText}" aggiunta!`, "success");
             }
 
             // Share functionality
@@ -1465,27 +1844,7 @@
                 .getElementById("share-copy")
                 .addEventListener("click", () => {
                     navigator.clipboard.writeText(shareTaskText.textContent);
-
-                    // Show copy confirmation
-                    const confirmation = document.createElement("div");
-                    confirmation.textContent = "Testo copiato negli appunti!";
-                    confirmation.style.position = "fixed";
-                    confirmation.style.bottom = "20px";
-                    confirmation.style.right = "20px";
-                    confirmation.style.background = "var(--accent)";
-                    confirmation.style.color = "white";
-                    confirmation.style.padding = "10px 20px";
-                    confirmation.style.borderRadius = "8px";
-                    confirmation.style.zIndex = "1000";
-                    confirmation.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
-                    document.body.appendChild(confirmation);
-
-                    setTimeout(() => {
-                        confirmation.style.opacity = "0";
-                        setTimeout(() => {
-                            document.body.removeChild(confirmation);
-                        }, 300);
-                    }, 2000);
+                    showNotification("Testo copiato negli appunti!", "success");
                 });
 
             // Calendar functionality
